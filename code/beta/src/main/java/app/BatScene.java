@@ -1,8 +1,10 @@
 package app;
 
+import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -12,23 +14,23 @@ public class BatScene {
     private static double offsetX = 0;
     private static double offsetY = 0;
 
-
     private BatScene() throws InstantiationError {
         throw new InstantiationError("Static Class: BatScene");
     }
 
     public static void setScene(Stage stage) {
         // set scene size and fill
-        batView.setViewport(new Rectangle2D(425, 150, 570, 370));
-        Scene scene = new Scene(new StackPane(batView));
+        batView.setViewport(new Rectangle2D(425, 160, 570, 370));
+        batView.setScaleX(0.5);
+        batView.setScaleY(0.5);
+        batView.setTranslateX(-140);
+        batView.setTranslateY(-90);
+        batView.setManaged(false);
+        Scene scene = new Scene(new StackPane(batView), 285, 185);
         scene.setFill(null);
 
-        // tap mechanics
-        scene.setOnKeyPressed(e -> {
-            batView.setImage(BatImg.tap[tapState ? 1 : 0]);
-            tapState = !tapState;
-        });
-        scene.setOnKeyReleased(e -> batView.setImage(BatImg.idle));
+        stage.setX(100);
+        stage.setY(0);
 
         // dragging
         scene.setOnMousePressed(e -> {
@@ -40,6 +42,24 @@ public class BatScene {
             stage.setY(e.getScreenY() - offsetY);
         });
 
+        // close app
+        scene.setOnMouseClicked(e -> {
+            if(e.getButton() == MouseButton.SECONDARY) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+
         stage.setScene(scene);
+    }
+
+    // tap mechanics
+    public static void tap() {
+        batView.setImage(BatImg.tap[tapState ? 1 : 0]);
+        tapState = !tapState;
+    }
+
+    public static void untap() {
+        batView.setImage(BatImg.idle);
     }
 }

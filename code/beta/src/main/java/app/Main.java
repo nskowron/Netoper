@@ -11,6 +11,7 @@ public class Main extends Application{
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setAlwaysOnTop(true);
         BatScene.setScene(stage);
+        new TapListener();
         stage.show();
     }
 
