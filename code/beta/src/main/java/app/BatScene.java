@@ -12,7 +12,6 @@ public class BatScene {
     private static ImageView batView = new ImageView(BatImg.idle);
     private static boolean tapState = false;
     private static double offsetX = 0;
-    private static double offsetY = 0;
 
     private BatScene() throws InstantiationError {
         throw new InstantiationError("Static Class: BatScene");
@@ -35,11 +34,9 @@ public class BatScene {
         // dragging
         scene.setOnMousePressed(e -> {
             offsetX = e.getSceneX();
-            offsetY = e.getSceneY();
         });
         scene.setOnMouseDragged(e -> {
             stage.setX(e.getScreenX() - offsetX);
-            stage.setY(e.getScreenY() - offsetY);
         });
 
         // close app
